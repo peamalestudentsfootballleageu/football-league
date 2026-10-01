@@ -78,7 +78,7 @@ function renderSettings() {
   const season = settings["Season"] ? "Season " + settings["Season"] : "";
 
   document.title = leagueName;
-  byId("header-name").textContent = leagueName;
+    byId("header-name").textContent = settings["School Name"] || leagueName;
   byId("hero-name").textContent = leagueName;
   byId("hero-season").textContent = season;
   byId("hero-description").textContent = settings["Description"] || "";

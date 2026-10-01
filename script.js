@@ -7,10 +7,10 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbwgUi3hwGmj9TqK7fy4CpVi2RK_V8HIlMfSn1fYATwiVMib77gGnSD41ow43iVbXkGK/exec";
 /* ============================================================ */
 
-const PAGE_NAMES = ["home", "table", "fixtures", "results", "teams"];
+const PAGE_NAMES = ["home", "table", "fixtures", "results", "teams", "bestplayers"];
 
 // Holds everything loaded from the sheet
-const leagueData = { settings: {}, teams: [], fixtures: [], results: [] };
+const leagueData = { settings: {}, teams: [], fixtures: [], results: [], bestPlayers: [] };
 
 function byId(id) {
   return document.getElementById(id);
@@ -58,7 +58,8 @@ function cleanLeagueData(rawData) {
     settings: rawData.settings && typeof rawData.settings === "object" ? rawData.settings : {},
     teams: Array.isArray(rawData.teams) ? rawData.teams : [],
     fixtures: Array.isArray(rawData.fixtures) ? rawData.fixtures : [],
-    results: Array.isArray(rawData.results) ? rawData.results : []
+        results: Array.isArray(rawData.results) ? rawData.results : [],
+    bestPlayers: Array.isArray(rawData.bestPlayers) ? rawData.bestPlayers : []
   };
 }
 
@@ -423,6 +424,49 @@ function renderTable(wrapperId) {
 
   wrapper.appendChild(table);
 }
+/* ---------- Best players ---------- */
+
+function createPlayerCard(entry) {
+  const card = document.createElement("article");
+  card.className = "player-card";
+
+  const name = document.createElement("div");
+  name.className = "player-name";
+  name.textContent = entry.player;
+
+  const meta = document.createElement("div");
+  meta.className = "player-meta";
+  meta.textContent = [entry.team, entry.position].filter(Boolean).join(" | ");
+
+  card.appendChild(name);
+  card.appendChild(meta);
+
+  if (entry.note) {
+    const note = document.createElement("p");
+    note.className = "player-note";
+    note.textContent = entry.note;
+    card.appendChild(note);
+  }
+  return card;
+}
+
+function renderBestPlayers(listId, maxItems) {
+  const list = byId(listId);
+  list.innerHTML = "";
+
+  const players = leagueData.bestPlayers.slice(0, maxItems);
+  if (players.length === 0) {
+    const message = document.createElement("p");
+    message.className = "empty-message";
+    message.textContent = "No best players have been selected yet.";
+    list.appendChild(message);
+    return;
+  }
+
+  players.forEach(function (entry) {
+    list.appendChild(createPlayerCard(entry));
+  });
+}
 /* ---------- Navigation between pages ---------- */
 function showPage() {
   const requestedPage = window.location.hash.replace("#", "");
@@ -455,7 +499,9 @@ async function startWebsite() {
     renderTable("table-wrapper");
     renderTable("home-table");
     renderResults("home-results", 3);
-    renderFixtures("home-fixtures", 3);
+        renderFixtures("home-fixtures", 3);
+    renderBestPlayers("bestplayers-list", 100);
+    renderBestPlayers("home-bestplayers", 3);
     hideStatus();
   } catch (error) {
     showStatus("Sorry, the league data could not be loaded. " + error.message, true);

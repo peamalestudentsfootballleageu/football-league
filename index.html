@@ -19,7 +19,8 @@
         <a href="#table" data-page="table">Table</a>
         <a href="#fixtures" data-page="fixtures">Fixtures</a>
         <a href="#results" data-page="results">Results</a>
-        <a href="#teams" data-page="teams">Teams</a>
+                <a href="#teams" data-page="teams">Teams</a>
+        <a href="#bestplayers" data-page="bestplayers">Best Players</a>
       </nav>
     </div>
   </header>
@@ -53,6 +54,12 @@
         <h2>Latest results</h2>
         <div id="home-results" class="match-list"></div>
         <p><a href="#results">See all results</a></p>
+      </div>
+
+            <div class="card">
+        <h2>Best players</h2>
+        <div id="home-bestplayers" class="match-list"></div>
+        <p><a href="#bestplayers">See all best players</a></p>
       </div>
 
       <div class="card">
@@ -94,8 +101,15 @@
                 <div id="teams-list" class="team-grid"></div>      </div>
     </section>
 
-  </main>
+     <!-- BEST PLAYERS -->
+    <section id="bestplayers" class="page" hidden>
+      <div class="card">
+        <h2>Best Players</h2>
+        <div id="bestplayers-list" class="match-list"></div>
+      </div>
+    </section>
 
+  </main>
   <footer class="site-footer">
     <div class="container">
       <p id="footer-text">Football League</p>

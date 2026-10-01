@@ -326,3 +326,16 @@ main { padding-top: 20px; padding-bottom: 32px; }
   .league-table th,
   .league-table td { padding: 12px 10px; }
 }
+
+/* ---------- Best players ---------- */
+.player-card {
+  padding: 14px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-left: 5px solid var(--color-primary);
+  border-radius: 10px;
+}
+
+.player-name { font-weight: 700; font-size: 1.05rem; }
+.player-meta { color: var(--color-muted); font-size: 0.9rem; }
+.player-note { margin: 6px 0 0; }

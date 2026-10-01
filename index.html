@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Football League</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#home">
+        <img id="header-logo" class="brand-logo" alt="" hidden>
+        <span id="header-name" class="brand-name">Football League</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#home" data-page="home">Home</a>
+        <a href="#table" data-page="table">Table</a>
+        <a href="#fixtures" data-page="fixtures">Fixtures</a>
+        <a href="#results" data-page="results">Results</a>
+        <a href="#teams" data-page="teams">Teams</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Loading / error message -->
+    <div id="status-message" class="status" role="status">Loading league data...</div>
+
+    <!-- HOME -->
+       <section id="home" class="page">
+      <div class="hero card">
+        <img id="hero-logo" class="hero-logo" alt="League logo" hidden>
+        <h1 id="hero-name">Football League</h1>
+        <p id="hero-season" class="hero-season"></p>
+        <p id="hero-description" class="hero-description"></p>
+      </div>
+
+      <div class="card">
+        <h2>League summary</h2>
+        <p id="home-summary">Waiting for data...</p>
+      </div>
+
+      <div class="card">
+        <h2>Current standings</h2>
+        <div id="home-table" class="table-wrapper"></div>
+        <p><a href="#table">See full table</a></p>
+      </div>
+
+      <div class="card">
+        <h2>Latest results</h2>
+        <div id="home-results" class="match-list"></div>
+        <p><a href="#results">See all results</a></p>
+      </div>
+
+      <div class="card">
+        <h2>Upcoming fixtures</h2>
+        <div id="home-fixtures" class="match-list"></div>
+        <p><a href="#fixtures">See all fixtures</a></p>
+      </div>
+    </section>
+
+    <!-- TABLE -->
+        <section id="table" class="page" hidden>
+      <div class="card">
+        <h2>League table</h2>
+        <div id="table-wrapper" class="table-wrapper"></div>
+        <p class="table-key">P = Played, W = Won, D = Drawn, L = Lost, GF = Goals For, GA = Goals Against, GD = Goal Difference, Pts = Points</p>
+      </div>
+    </section>
+
+    <!-- FIXTURES -->
+        <section id="fixtures" class="page" hidden>
+      <div class="card">
+        <h2>Fixtures</h2>
+        <div id="fixtures-list" class="match-list"></div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+        <section id="results" class="page" hidden>
+      <div class="card">
+        <h2>Results</h2>
+        <div id="results-list" class="match-list"></div>
+      </div>
+    </section>
+
+    <!-- TEAMS -->
+    <section id="teams" class="page" hidden>
+      <div class="card">
+        <h2>Teams</h2>
+                <div id="teams-list" class="team-grid"></div>      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p id="footer-text">Football League</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -484,27 +484,70 @@ function showPage() {
 }
 
 /* ---------- Start ---------- */
+/* ---------- Start (shows saved data first, then updates) ---------- */
+
+const CACHE_KEY = "leagueDataCache";
+
+function saveCachedData(rawData) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify(rawData));
+  } catch (error) {
+    // Saving is optional. The site still works without it.
+  }
+}
+
+function loadCachedData() {
+  try {
+    const savedText = localStorage.getItem(CACHE_KEY);
+    return savedText ? JSON.parse(savedText) : null;
+  } catch (error) {
+    return null;
+  }
+}
+
+function renderEverything() {
+  renderSettings();
+  renderHomeSummary();
+  renderTeamsList();
+  renderFixtures("fixtures-list", 100);
+  renderResults("results-list", 100);
+  renderTable("table-wrapper");
+  renderTable("home-table");
+  renderResults("home-results", 3);
+  renderFixtures("home-fixtures", 3);
+  renderBestPlayers("bestplayers-list", 100);
+  renderBestPlayers("home-bestplayers", 3);
+  hideStatus();
+}
+
 async function startWebsite() {
   showPage();
   window.addEventListener("hashchange", showPage);
 
+  // Step 1: show the data saved from the last visit, instantly
+  let hasSavedData = false;
+  const cachedData = loadCachedData();
+  if (cachedData) {
+    try {
+      Object.assign(leagueData, cleanLeagueData(cachedData));
+      renderEverything();
+      hasSavedData = true;
+    } catch (error) {
+      hasSavedData = false;
+    }
+  }
+
+  // Step 2: get fresh data and update the page
   try {
     const rawData = await fetchLeagueData();
+    saveCachedData(rawData);
     Object.assign(leagueData, cleanLeagueData(rawData));
-    renderSettings();
-    renderHomeSummary();
-        renderTeamsList();
-           renderFixtures("fixtures-list", 100);
-    renderResults("results-list", 100);
-    renderTable("table-wrapper");
-    renderTable("home-table");
-    renderResults("home-results", 3);
-        renderFixtures("home-fixtures", 3);
-    renderBestPlayers("bestplayers-list", 100);
-    renderBestPlayers("home-bestplayers", 3);
-    hideStatus();
+    renderEverything();
   } catch (error) {
-    showStatus("Sorry, the league data could not be loaded. " + error.message, true);
+    // Only show the red message if there is nothing saved to show
+    if (!hasSavedData) {
+      showStatus("Sorry, the league data could not be loaded. " + error.message, true);
+    }
   }
 }
 
